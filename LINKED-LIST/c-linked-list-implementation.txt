@@ -1,0 +1,11 @@
+We can model a node of the linked list using a structure as follows:
+
+typedef struct node{
+    int data;
+    struct node* next;
+}
+
+The node structure has two members:
+
+- data stores the information
+- next pointer holds the address of the next node.

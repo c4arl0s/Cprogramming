@@ -1,0 +1,3 @@
+Introduction to linked list data structure
+
+A linked list is a data structure that consists of sequence of nodes. Each node is composed of two fields: data field and reference field which is a pointer that points to the next node in the sequence.

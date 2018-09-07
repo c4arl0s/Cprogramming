@@ -1,0 +1,228 @@
+4. Memory management in various languages
+ALGOL
+ALGOL, designed in 1958 for scientific computing, was the first block-structured language. It spawned a whole family of languages, and inspired many more, including Scheme, Simula and Pascal.
+The block structure of ALGOL 60 induced a stack allocation discipline. It had limited dynamic arrays, but no general heap allocation. The substantially redesigned ALGOL 68 had both heap and stack allocation. It also had something like the modern pointer type, and required garbage collection for the heap. The new language was complex and difficult to implement, and it was never as successful as its predecessor.
+Related publication
+
+Branquart & Lewi (1972).
+BASIC
+BASIC is a simple and easily-learned programming language created by T. E. Kurtz and J. G. Kemeny in 1963–4. The motivation was to make computers easily accessible to undergraduate students in all disciplines.
+Most BASICs had quite powerful string handling operations that required a simple garbage collector. In many implementations, the garbage collector could be forced to run by running the mysterious expression FRE("").
+BASIC is now old-fashioned, but survives as a scripting language, in particular in Visual BASIC, which is an application development environment with a BASIC-like scripting language. These descendants invariably have automatic memory management as well.
+C
+C is a systems programming language sometimes described as “a portable assembler” because it was intended to be sufficiently low-level to allow performance comparable to assembler or machine code, but sufficiently high-level to allow programs to be reused on other platforms with little or no modification.
+Memory management is typically manual (the standard library functions for memory(2) management in C, malloc and free(2), have become almost synonymous with manual memory management), although with the Memory Pool System, or the Boehm–Demers–Weiser collector, it is now possible to use garbage collection.
+The language is notorious for fostering memory management bugs, including:
+Accessing arrays with indexes that are out of bounds;
+Using stack-allocated structures beyond their lifetimes (see use after free);
+Using heap-allocated structures after freeing them (see use after free);
+Neglecting to free heap-allocated objects when they are no longer required (see memory leak);
+Failing to allocate memory for a pointer before using it;
+Allocating insufficient memory for the intended contents;
+Loading from allocated memory before storing into it;
+Dereferencing non-pointers as if they were pointers.
+See also
+
+automatic storage duration, static storage duration.
+Related publications
+
+ISO/IEC 9899:1990, ISO/IEC 9899:1999, Boehm & Weiser (1988), Daconta (1993), Zorn (1993).
+Related links
+
+Memory Pool System, Boehm–Demers–Weiser collector, C standardization, comp.lang.c Frequently Asked Questions.
+COBOL
+COBOL was designed by the CODASYL committee in 1959–60 to be a business programming language, and has been extended many times since. A 1997 Gartner Group report estimated that 80% of computer software (by count of source lines) was written in COBOL.
+Prior to 2002, COBOL had no heap allocation, and did well in its application domain without it. COBOL 2002 has pointers and heap allocation through ALLOCATE and FREE, mainly in order to be able to use C-style interfaces. It also supports a high level of abstraction through object-oriented programming and garbage collection (including finalization).
+Related link
+
+COBOL standardization.
+Common Lisp
+Common Lisp is the major dialect of the Lisp family. In addition to the usual Lisp features, it has an advanced object system, data types from hash tables to complex numbers, and a rich standard library.
+Common Lisp is a garbage-collected language, and modern implementations, such as LispWorks and Allegro CL, include advanced features, such as finalization and weakness.
+Related link
+
+Common Lisp HyperSpec.
+C#
+C# is a strongly typed object-oriented language created at Microsoft in 1999–2000. It is designed to run on the Common Language Runtime, the virtual machine from the .NET Framework. It also runs on the open source Mono runtime.
+Memory is automatically managed: memory is allocated when an object is created, and reclaimed at some point after the object becomes unreachable.
+The language supports finalization (classes may have destructor functions, which are run just before the object is reclaimed by the memory manager), and weak references(1) (via the WeakReference class).
+The garbage collector in the .NET Framework is configurable to run in soft real time, or in batch mode.
+The Mono runtime comes with two collectors: the Boehm–Demers–Weiser conservative collector, and a generational copying collector.
+Related links
+
+Automatic memory management in C#, WeakReference Class, Memory Management and Garbage Collection in the .NET Framework, Mono project.
+C++
+C++ is a (weakly) object-oriented language, extending the systems programming language C with a multiple-inheritance class mechanism and simple method dispatch.
+The standard library functions for memory(2) management in C++ are new and delete. The higher abstraction level of C++ makes the bookkeeping required for manual memory management even harder. Although the standard library provides only manual memory management, with the Memory Pool System, or the Boehm–Demers–Weiser collector, it is now possible to use garbage collection. Smart pointers are another popular solution.
+The language is notorious for fostering memory management bugs, including:
+Using stack-allocated structures beyond their lifetimes (see use after free);
+Using heap-allocated structures after freeing them (see use after free);
+Neglecting to free heap-allocated objects when they are no longer required (see memory leak);
+Excessive copying by copy constructors(1);
+Unexpected sharing due to insufficient copying by copy constructors;
+Allocating insufficient memory for the intended contents;
+Accessing arrays with indexes that are out of bounds.
+Historical note
+
+C++ was designed by Bjarne Stroustrup, as a minimal object-oriented extension to C. It has since grown to include some other modern programming language ideas. The first implementations were preprocessors that produced C code, but modern implementations are dedicated C++ compilers.
+Ellis and Stroustrup write in The Annotated C++ Reference Manual:
+C programmers think memory management is too important to be left to the computer. Lisp programmers think memory management is too important to be left to the user.
+See also
+
+constructor(2), destructor(2).
+Related publications
+
+Attardi & Flagella (1994), Bartlett (1989), Boehm & Weiser (1988), Edelson (1992), Ellis (1993), Zorn (1993).
+Related link
+
+Memory Pool System, Boehm–Demers–Weiser collector, comp.lang.c++ FAQ, C++ standardization.
+Dylan
+Dylan is a modern programming language invented by Apple around 1993 and developed by Harlequin and other partners. The language is a distillation of the best ideas in dynamic and object-oriented programming. Its ancestors include Lisp, Smalltalk, and C++. Dylan is aimed at building modular component software and delivering safe, compact applications. It also facilitates the rapid development and incremental refinement of prototype programs.
+Dylan provides automatic memory management. The generic allocation function is called make. Most implementations provide finalization and weak hash tables, although interfaces for these features have not yet been standardized. An object may be registered for finalization via the function finalize-when-unreachable, in which case there will be a call to the finalize function once the garbage collector has determined that the object is unreachable. Weak hash tables may have either weak keys
+or values, depending on a parameter supplied at allocation time. A hash table entry will be deleted once the garbage collector has determined that there are no strong references to the key or value of the entry, for weak key or value tables, respectively.
+Related link
+
+Open Dylan.
+Emacs Lisp
+Emacs Lisp or elisp is a dialect of Lisp used in the Emacs family of text editors, of which the most widely-used is GNU Emacs.
+Like most Lisps, Emacs Lisp requires garbage collection. GNU Emacs has a simple mark-sweep collector. It has been speculated that the non-incremental nature of the Emacs collector, combined with the fact that, prior to version 19.31 (May 1996), it printed a message whenever it collected, gave garbage collection a bad name in programming circles.
+Erik Naggum reported at the time:
+I have run some tests at the U of Oslo with about 100 users who generally agreed that Emacs had become faster in the latest Emacs pretest. All I had done was to remove the “Garbage collecting” message which people perceive as slowing Emacs down and tell them that it had been sped up. It is, somehow, permissible for a program to take a lot of time doing any other task than administrative duties like garbage collection.
+Emacs was originally written in Teco, not in Lisp, but it still had a garbage collector, though this was heuristic and conservative in nature. Teco-based Emacs was capable of running for weeks at a time in a 256 kB address space.
+Related links
+
+GNU Emacs Lisp Reference Manual, Entry on Garbage Collection.
+Fortran
+Fortran, created in 1957, was one of the first languages qualifying as a high-level language. It is popular among scientists and has substantial support in the form of numerical libraries.
+Early versions of Fortran required the size of arrays to be known at compilation time, and the earliest Fortran compilers accordingly used only static allocation (however, the 1966 standard gave compiler writers freedom to use other allocation mechanisms).
+The Fortran 90 standard added recursion and automatic arrays with stack allocation semantics (though many compilers in fact allocate them on the heap). It also added dynamic allocation using ALLOCATE with manual deallocation using DEALLOCATE. Fortran 95 made it explicit that allocated arrays have dynamic extent and are automatically deallocated when they go out of scope.
+Related link
+
+Fortran standardization.
+Java
+A modern object-oriented language with a rich collection of useful features. The Java language started as an attempt by the Java group at Sun Microsystems to overcome software engineering problems introduced by C++. Key reasons for the language’s success were the security model and the portable execution environment, the Java Virtual Machine (JVM), which created a lot of interest for it as a platform for distributed computing on open networks.
+Java is garbage-collected, as this facilitates object-oriented programming and is essential for security (which use after free would break). It had finalization from version 1.0 and three kinds of weakness from version 1.2 (confusingly, part of the Java 2 Platform).
+Early JVMs had simple collectors that didn’t scale well for large programs, but the current crop is catching up to the state of the art.
+See also
+
+reference object, strong reference, soft reference, weak reference(2), phantom reference, strongly reachable, softly reachable, weakly reachable, phantom reachable.
+JavaScript
+JavaScript is a scripting language used by web browsers. The loose type system resembles other scripting languages, although the syntax follows C. There’s a prototype-based object system. Note that JavaScript is not related to Java in any way except name. There’s a standard by ECMA, known as ECMAScript.
+Despite the C++-like syntax (with new and delete operators), JavaScript is garbage-collected.
+Related link
+
+Standard ECMA-262: ECMAScript Language Specification.
+Lisp
+Lisp is a family of computer languages combining functional and procedural features with automatic memory management.
+Lisp was invented by John McCarthy around 1958 for the manipulation of symbolic expressions. As part of the original implementation of Lisp, he invented garbage collection. He noted:
+This process, because it is entirely automatic, is more convenient for the programmer than a system in which he has to keep track of lists and erase unwanted lists.
+Modern Lisp implementations, such as LispWorks and Allegro CL, have advanced garbage collectors.
+Lisp is now used for all kinds of symbolic programming and other advanced software development. Major dialects today are Emacs Lisp, Common Lisp and Scheme. Most modern dialects and related languages, such as Dylan, are object-oriented.
+See also
+
+cons(1).
+Related publications
+
+Baker (1978), Edwards, McCarthy & Minsky (1959), McCarthy (1960), McCarthy (1979), Moon (1984), Moon (1990), Moon (1991), Sobalvarro (1988), Zorn (1988).
+Related link
+
+Common Lisp HyperSpec.
+Lisp Machine
+Of particular interest in the history of memory management are the Lisp Machines, early workstation computers built around a custom processor designed to improve the execution speed of Lisp by implementing primitive Lisp operations in microcode. The Lisp Machine garbage collector is a generalization of the algorithm described in Baker (1978) and used a technique similar to that described in Ungar (1984), but utilizing hardware to improve performance.
+A description of the garbage collector of one particular model is in Moon (1984). The features important for its performance were:
+Hardware support for data typing using tags;
+Reference-based read barriers for incremental collecting;
+Write barriers for remembered sets and generational collecting;
+A tight integration with the virtual memory system.
+The remembered sets were based on a BIBOP division of the virtual address space. The Lisp Machine page table, unlike virtually all modern virtual memory systems, was a flat, hash-based table (sometimes called an inverted page table), and thus insensitive to sparsely-populated virtual address spaces associated with BIBOP schemes.
+These custom processors eventually lost out to rapidly advancing stock hardware. Many of the techniques pioneered on Lisp Machines are used in today’s implementations, at a cost of a few more cycles.
+Related links
+
+Lisp Machine Manual, 6th edition, The Garbage Collector.
+Lua
+Lua is a dynamically typed language created by Roberto Ierusalimschy, Luiz Henrique de Figueiredo, and Waldemar Celes in 1993. The language supports object-oriented and functional styles of programming, and is designed to be easily embedded in a larger programming system as an extension or scripting language.
+Lua uses automatic memory management and comes with a non-moving incremental garbage collector supporting soft real time applications. This uses a software barrier(1) in order to be highly portable.
+The language supports weak references(1) in the form of weak (hash) tables, which have the unusual feature that their keys and values can be dynamically switched from being strong references to weak references, and vice versa (by assigning to the __mode field of the table’s metatable). It also supports finalization (by assigning the __gc field of the object’s metatable).
+Related links
+
+Lua, Garbage Collection.
+ML
+ML is a family of strongly-typed functional languages, of which the principal members are Standard ML and Caml.
+Like other functional languages, ML provides automatic memory management. Modern ML implementations usually have advanced garbage collectors. The combination of clean functional semantics and strong typing allows advanced techniques, such as region inference.
+The Standard ML of New Jersey (SML/NJ) system, which implements a slight variant of Standard ML, has been important to memory management research for three reasons. Firstly, the source code is publicly available and widely ported, allowing experimentation with both the collector(2) and mutator. Secondly, the compiler generates code that does not use a control stack, but allocates function activation records on the heap instead. This means that the allocation rate is very high (up to
+one byte per instruction), and also that the collector has a very small root set. Thirdly, it uses a simple copying collector that is easy to modify.
+See also
+
+immutable.
+Related publications
+
+Cooper et al. (1992), Doligez (1993), Tofte & Talpin (1997).
+Related link
+
+comp.lang.ml FAQ.
+Modula-3
+An object-oriented descendant of Pascal.
+Modula-3 is mostly garbage-collected, although it is possible to use manual memory management in certain modules.
+Related links
+
+modula3.org, Modula-3 language definition.
+Pascal
+An imperative language characterized by block structure and a relatively strong (for its time) static type system. Pascal was designed by Niklaus Wirth around 1970.
+Pascal was popular as a teaching language due to its small size, but it lacked many features needed for applications programming. Now it’s been largely supplanted by its more feature-rich descendants Modula-2, Modula-3, and Oberon, mainly surviving in the popular Delphi development tool.
+Pascal uses manual memory management (with the operators NEW and DISPOSE). The descendants mentioned all offer automatic memory management.
+Related links
+
+Embarcadero (formely Borland) Delphi, Pascal standardization.
+Perl
+Perl is a complex but powerful language that is an eclectic mixture of scripting languages and programming languages.
+Perl programmers can work with strings, arrays, and associative arrays without having to worry about manual memory management. Perl is well-suited to complex text file manipulation, such as report generation, file format conversion, and web server CGI scripts. It is also useful for rapid prototyping, but large Perl scripts are often unmaintainable.
+Perl’s memory management is well-hidden, but is based on reference counts and garbage collection. It also has mortal variables, whose lifetimes are limited to the current context. It is possible to free(1) the memory(2) assigned to variables (including arrays) explicitly, by undef-ing the only reference to them.
+Related link
+
+The Perl Programming Language.
+PostScript
+The PostScript language is an interpretive language with powerful graphics features, widely used as a page description language for printers and typesetters.
+The Level 1 PostScript language has a simple stack-like memory management model, using save and restore operators to recycle memory. The Level 2 PostScript language adds garbage collection to this model.
+See also
+
+VM(2), composite object, simple object.
+Related link
+
+Harlequin RIP.
+Prolog
+A logic programming language invented by Alain Colmerauer around 1970, Prolog is popular in the AI and symbolic computation community. It is special because it deals directly with relationships and inference rather than functions or commands.
+Storage is usually managed using a garbage collector, but the complex control flow places special requirements on the collector.
+Related links
+
+Prolog Standardization, Prolog Memory Management - Garbage Collection.
+Python
+Python is a “duck-typed” object-oriented language created in the early 1990s by Guido van Rossum.
+There are several implementations running on a variety of virtual machines: the original “CPython” implementation runs on its own virtual machine; IronPython runs on the Common Language Runtime; Jython on the Java Virtual Machine.
+CPython manages memory using a mixture of reference counting and non-moving mark-and-sweep garbage collection. Reference counting ensures prompt deletion of objects when their reference count falls to zero, while the garbage collector reclaims cyclic data structures.
+The language supports finalization (classes may have a __del__ method, which is run just before the object is destroyed), and weak references(1) (via the weakref module).
+Related links
+
+Python, Garbage Collector interface, __del__ method, weakref module.
+Scheme
+A small functional language blending influences from Lisp and Algol.
+Key features of Scheme include symbol and list operations, heap allocation and garbage collection, lexical scoping with first-class function objects (implying closures), reliable tail-call elimination (allowing iterative procedures to be described tail-recursively), the ability to dynamically obtain the current continuation as a first-class object, and a language description that includes a formal semantics.
+Scheme has been gaining popularity as an extension language; Project GNU’s extension package of choice, Guile, is a Scheme interpreter. Garbage collection is an important part of the ease of use that is expected from an extension language.
+Related links
+
+Scheme Standards documents, Scheme Requests for Implementation.
+Simula
+Simula was designed as a language for simulation, but it expanded into a full general-purpose programming language and the first object-oriented language.
+Simula I, designed in 1962–64 by Kristen Nygaard and Ole-Johan Dahl, was based on ALGOL 60, but the stack allocation discipline was replaced by a two-dimensional free list.
+It was Simula 67 that pioneered classes and inheritance to express behavior. This domain-oriented design was supported by garbage collection.
+Related publication
+
+Dahl (1963).
+Smalltalk
+Smalltalk is an object-oriented language with single inheritance and message-passing.
+Automatic memory management is an essential part of the Smalltalk philosophy. Many important techniques were first developed or implemented for Smalltalk.
+Related publications
+
+Deutsch & Bobrow (1976), Ungar (1984), Ungar (1988).
+Related link
+
+Smalltalk standardization.

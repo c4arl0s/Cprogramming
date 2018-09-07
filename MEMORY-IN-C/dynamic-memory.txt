@@ -1,0 +1,135 @@
+Dynamic Memory
+
+Well, aren't you looking dynamic this morning, reader? Or is it evening? I always lose track of these things.
+
+Up until now, we've been talking about memory that pretty much is set up at the beginning of the program run. You have constant strings here and there, arrays of predeclared length, and variables all declared ahead of time. But what if you have something like the following?
+
+Assignment: Implement a program that will read an arbitrary number of integers from the keyboard. The first line the user enters will be the number of ints to read. The ints themselves will appear on subsequent lines, one int per line.
+
+Yes, it's that time again: break it up into component parts that you can implement. You'll need to read lines of text from the keyboard (there's a cool little function called fgets() that can help here), and the first line you'll need to convert to an integer so you know how many more lines to read. (You can use atoi(), read "ascii-to-integer" to do this conversion.) Then you'll need to read that many more strings and store them...where?
+
+Here's where dynamic memory can help out--we need to store a bunch of ints, but we don't know how many until after the program has already started running. What we do is find out how many ints we need, then we calculate how many bytes we need for each, multiply those two numbers to get the total number of bytes we need to store everything, and then ask the OS to allocate that many bytes for us on the heap for us to use in the manner we choose. In this case, we're choosing to store ints in there.
+
+There are three functions we're going to talk about here. Well, make that four functions, but one is just a variant of another: malloc() (allocate some memory for us to use), free() (release some memory that malloc() gave us earlier), realloc() (change the size of some previously allocated memory), and calloc() (just like malloc(), except clears the memory to zero.)
+
+Using these functions in unison results in a beautifully intricate dance of data, ebbing and flowing with the strong tidal pull of the dedicated user's will.
+
+Yeah. Let's cut the noise and get on with it here.
+
+malloc()
+
+This is the big one: he's the guy that gives you memory when you ask for it. It returns to you a pointer to a chunk of memory of a specified number of bytes, or NULL if there is some kind of error (like you're out of memory). The return type is actually void*, so it can turn into a pointer to whatever you want.
+
+Since malloc() operates in bytes of memory and you often operate with other data types (e.g. "Allocate for me 12 ints."), people often use the sizeof() operator to determine how many bytes to allocate, for example:
+
+int *p;
+
+p = malloc(sizeof(int) * 12); /* allocate for me 12 ints! */
+
+Oh, and that was pretty much an example of how to use malloc(), too. You can reference the result using pointer arithmetic or array notation; either is fine since it's a pointer. But you should really check the result for errors:
+
+int *p;
+
+p = malloc(sizeof(float) * 3490); /* allocate 3490 floats! */
+
+if (p == NULL) {
+        printf("Horsefeathers!  We're probably out of memory!\n");
+            exit(1);
+}
+
+More commonly, people pack this onto one line:
+
+if ((p = malloc(100)) == NULL) {    /* allocate 100 bytes */
+        printf("Ooooo!  Out of memory error!\n");
+            exit(1);
+}
+
+Now remember this: you're allocating memory on the heap and there are only two ways to ever get that memory back: 1) your program can exit, or 2) you can call free() to free a malloc()'d chunk. If your program runs for a long time and keeps malloc()ing and never free()ing when it should, it's said to "leak" memory. This often manifests itself in a way such as, "Hey, Bob. I started your print job monitor program a week ago, and now it's using 13 terabytes of RAM. Why is that?"
+
+Be sure to avoid memory leaks! free() that memory when you're done with it!
+
+free()
+
+Speaking of how to free memory that you've allocated, you do it with the implausibly-named free() function.
+This function takes as its argument a pointer that you've picked up using malloc() (or calloc()). And it releases the memory associated with that data. You really should never use memory after it has been free()'d. It would be Bad.
+
+So how about an example:
+
+int *p;
+
+p = malloc(sizeof(int) * 37); /* 37 ints! */
+
+free(p);  /* on second thought, never mind! */
+
+Of course, between the malloc() and the free(), you can do anything with the memory your twisted little heart desires.
+
+realloc()
+
+realloc() is a fun little function that takes a chunk of memory you allocated with malloc() (or calloc()) and changes the size of the memory chunk. Maybe you thought you only needed 100 ints at first, but now you need 200. You can realloc() the block to give you the space you need.
+
+This is all well and good, except that realloc() might have to move your data to another place in memory if it can't, for whatever reason, increase the size of the current block. It's not omnipotent, after all.
+
+What does this mean for you, the mortal? Well in short, it means you should use realloc() sparingly since it could be an expensive operation. Usually the procedure is to keep track of how much room you have in the memory block, and then add another big chunk to it if you run out. So first you allocate what you'd guess is enough room to hold all the data you'd require, and then if you happened to run out, you'd reallocate the block with the next best guess of what you'd require in the future. What makes a good guess depends on the program. Here's an example that just allocates more "buckets" of space as needed:
+
+#include <stdlib.h>
+
+#define INITIAL_SIZE 10
+#define BUCKET_SIZE 5
+
+static int data_count; /* how many ints we have stored */
+static int data_size;  /* how many ints we *can* store in this block */
+static int *data;      /* the block of data, itself */
+
+int main(void)
+{
+    void add_data(int new_data);                /* function prototypec */
+ 
+    int i;
+
+    /* first, initialize the data area: */
+    data_count = 0;
+    data_size = INITIAL_SIZE;
+    data = malloc(data_size * sizeof(int));     /* allocate initial area */
+
+    /* now add a bunch of data */
+    for(i = 0; i < 23; i++) 
+    {
+        add_data(i);
+    }
+    return 0;
+}
+
+void add_data(int new_data)
+{
+        // if data_count == data_size, the area is full and
+            // needs to be realloc()'d before we can add another:
+
+                if (data_count == data_size) {
+                            // we're full up, so add a bucket
+                                    data_size += BUCKET_SIZE;
+                                            data = realloc(data, data_size * sizeof(int));
+                                                }
+
+                                                    // now store the data
+                                                        *(data+data_count) = new_data;
+
+                                                            // ^^^ the above line could have used array notation, like so:
+                                                                //  data[data_count] = new_data;
+
+                                                                    data_count++;
+}
+In the above code, you can see that a potentially expensive realloc() is only done after the first 10 ints have been stored, and then again only after each block of five after that. This beats doing a realloc() every time you add a number, hands down.
+(Yes, yes, in that completely contrived example, since I know I'm adding 23 numbers right off the get-go, it would make much more sense to set INITIAL_SIZE to 25 or something, but that defeats the whole purpose of the example, now, doesn't it?)
+11.4. calloc()
+Since you've already read the section on malloc() (you have, right?), this part will be easy! Yay! Here's the scoop: calloc() is just like malloc(), except that it 1) clears the memory to zero for you, and 2) it takes two parameters instead of one.
+The two parameters are the number of elements that are to be in the memory block, and the size of each element. Yes, this is exactly like we did in malloc(), except that calloc() is doing the multiply for you:
+// this:
+p = malloc(10 * sizeof(int));
+
+// is just like this:
+p = calloc(10, sizeof(int));
+// (and the memory is cleared to zero when using calloc())
+The pointer returned by calloc() can be used with realloc() and free() just as if you had used malloc().
+The drawback to using calloc() is that it takes time to clear memory, and in most cases, you don't need it clear since you'll just be writing over it anyway. But if you ever find yourself malloc()ing a block and then setting the memory to zero right after, you can use calloc() to do that in one call.
+I wish this section on calloc() were more exciting, with plot, passion, and violence, like any good Hollywood picture, but...this is C programming we're talking about. And that should be exciting in its own right. Sorry!
+

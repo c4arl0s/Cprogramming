@@ -1,0 +1,19 @@
+C
+
+C is a systems programming language sometimes described as “a portable assembler” because it was intended to be sufficiently low-level to allow performance comparable to assembler or machine code, but sufficiently high-level to allow programs to be reused on other platforms with little or no modification.
+
+Memory management is typically manual (the standard library functions for memory(2) management in C, malloc and free(2), have become almost synonymous with manual memory management), although with the Memory Pool System, or the Boehm–Demers–Weiser collector, it is now possible to use garbage collection.
+
+The language is notorious for fostering memory management bugs, including:
+
+1.-Accessing arrays with indexes that are out of bounds;
+2.-Using stack-allocated structures beyond their lifetimes (see use after free);
+3.-Using heap-allocated structures after freeing them (see use after free);
+4.-Neglecting to free heap-allocated objects when they are no longer required (see memory leak);
+5.-Failing to allocate memory for a pointer before using it;
+6.-Allocating insufficient memory for the intended contents;
+7.-Loading from allocated memory before storing into it;
+8.-Dereferencing non-pointers as if they were pointers.
+
+See also
+automatic storage duration, static storage duration.

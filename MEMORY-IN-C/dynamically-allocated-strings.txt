@@ -1,0 +1,25 @@
+Dynamically-allocated string:
+
+Since sometimes you do not know how big a string is until run-time, you may have to resort to dynamic allocation.
+
+The following is an example of dynamically-allocating space for a string at run-time:
+
+#include <stdlib.h>  /* for malloc/free */
+
+...
+
+void SomeFunc(int length)
+{
+      char *str;
+
+        /* Don't forget extra char for nul character. */
+
+          str = (char *)malloc(sizeof(char) * (length+1));
+
+            ...
+
+Basically, we've just asked malloc() (the allocation function) to give us back enough space for a string of the desired size. Malloc() takes the number of bytes needed as its parameter. Above, we need the size of one character times the number of characters we want (don't forget the extra +1 for the nul character).
+
+We keep track of the dynamically-allocated array with a pointer and can use that pointer as we used pointers to statically-allocated arrays above (i.e., how we access individual characters, pass the string to a function, etc. are the same).
+
+Now, how do we get a string value into this newly-allocated array?

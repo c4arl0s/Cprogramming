@@ -1,0 +1,15 @@
+
+int a;      =>  static memory allocation is nothing but fixed size
+int array[5]  =>  static memory allocation is nothing but fixed size
+
+DMA is decrease or increase the memory size
+
+stdlib.h
+
+4 important functions
+
+malloc()    used to allocated memory to structures.
+calloc()    used to allocate memory to arrays.
+ralloc()    used to increase o decrease the size of the array.
+free()      used to delete the memory.
+

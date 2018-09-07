@@ -1,0 +1,406 @@
+ Introduction to C
+       Memory Model
+
+
+    Instructor: Yin Lou
+
+
+          02/04/2011
+
+
+
+
+Introduction to C   CS 2022, Spring 2011, Lecture 6
+Recap: Pointers
+
+
+
+    I   int *ptr;
+    I   Pointers are variables that store memory address of other
+        variables
+    I   Type of variable pointed to depends on type of pointer:
+
+
+
+
+                        Introduction to C   CS 2022, Spring 2011, Lecture 6
+Recap: Pointers
+
+
+
+    I   int *ptr;
+    I   Pointers are variables that store memory address of other
+        variables
+    I   Type of variable pointed to depends on type of pointer:
+          I   int *ptr points to an integer value
+          I   char *ptr points to character variable
+
+
+
+
+                          Introduction to C   CS 2022, Spring 2011, Lecture 6
+Recap: Pointers
+
+
+
+    I   int *ptr;
+    I   Pointers are variables that store memory address of other
+        variables
+    I   Type of variable pointed to depends on type of pointer:
+          I   int *ptr points to an integer value
+          I   char *ptr points to character variable
+          I   Can cast between pointer types: myIntPtr = (int *)
+              myOtherPtr;
+
+
+
+
+                          Introduction to C   CS 2022, Spring 2011, Lecture 6
+Recap: Pointers
+
+
+
+    I   int *ptr;
+    I   Pointers are variables that store memory address of other
+        variables
+    I   Type of variable pointed to depends on type of pointer:
+          I   int *ptr points to an integer value
+          I   char *ptr points to character variable
+          I   Can cast between pointer types: myIntPtr = (int *)
+              myOtherPtr;
+          I   void *ptr has an unspecified type (generic pointer); must be
+              cast to a type before used
+
+
+
+
+                          Introduction to C   CS 2022, Spring 2011, Lecture 6
+Recap: Pointers
+
+
+    I   Two main operations
+          I   * dereference: get the value at the memory location stored in
+              a pointer
+          I   & address of: get the address of a variable
+          I   int *myPtr = &myVar;
+    I   Pointer arithmetic: directly manipulate a pointer’s content to
+        access other locations
+          I   Use with caution!: can access bad areas of memory and
+              cause a crash
+          I   However, it is useful in accessing and manipulating data
+              structures
+    I   Can have pointers to pointers
+          I   int **my2dArray;
+
+
+
+                          Introduction to C   CS 2022, Spring 2011, Lecture 6
+Memory
+
+
+  I   Program code
+  I   Function variables
+        I   Arguments
+        I   Local variables
+        I   Return location
+  I   Global Variables
+        I   Statically allocated
+        I   Dynamically allocated
+
+
+
+
+                           Introduction to C   CS 2022, Spring 2011, Lecture 6
+The Stack
+
+
+
+
+  Stores
+    I   Function local variables
+    I   Temporary variables
+    I   Arguments for next function call
+    I   Where to return when function ends
+
+
+
+
+                        Introduction to C   CS 2022, Spring 2011, Lecture 6
+The Stack
+
+
+
+
+  Managed by compiler
+    I   One stack frame each time function called
+    I   Created when function called
+    I   Stacked on top (under) one another
+    I   Destroyed at function exit
+
+
+
+
+                        Introduction to C   CS 2022, Spring 2011, Lecture 6
+What Can Go Wrong?
+
+
+
+  char *my_strcat(char *s1, char *s2)
+  {
+      char s3[1024];
+      strcpy(s3, s1);
+      strcat(s3, s2);
+      return s3;
+  }
+
+
+
+
+                                Introduction to C   CS 2022, Spring 2011, Lecture 6
+What Can Go Wrong?
+
+
+
+  char *my_strcat(char *s1, char *s2)
+  {
+      char s3[1024];
+      strcpy(s3, s1);
+      strcat(s3, s2);
+      return s3;
+  }
+
+
+
+
+     I   Recall that local variables are stored on the stack
+     I   Memory for local variables is deallocated when function
+         returns
+     I   Returning a pointer to a local variable is almost always a bug!
+
+
+
+                                Introduction to C   CS 2022, Spring 2011, Lecture 6
+What Can Go Wrong?
+
+
+
+
+    I   Run out of stack space
+    I   Unintentionally change values on the stack
+          I   In some other function’s frame
+          I   Even return address from function
+    I   Access memory even after frame is deallocated
+
+
+
+
+                          Introduction to C   CS 2022, Spring 2011, Lecture 6
+The Heap
+
+
+
+    I   C can use space in another part of memory: the heap
+
+
+
+
+                       Introduction to C   CS 2022, Spring 2011, Lecture 6
+The Heap
+
+
+
+    I   C can use space in another part of memory: the heap
+          I   The heap is separate from the execution stack
+          I   Heap regions are not deallocated when a function returns
+          I   Note: this is completely unrelated to the Heap data structure
+
+
+
+
+                          Introduction to C   CS 2022, Spring 2011, Lecture 6
+The Heap
+
+
+
+    I   C can use space in another part of memory: the heap
+          I   The heap is separate from the execution stack
+          I   Heap regions are not deallocated when a function returns
+          I   Note: this is completely unrelated to the Heap data structure
+    I   The programmer requests storage space on the heap
+          I   C never puts variables on the heap automatically
+          I   But local variables might point to locations on the heap
+          I   Heap space must be explicitly allocated and deallocated by the
+              programmer
+
+
+
+
+                          Introduction to C   CS 2022, Spring 2011, Lecture 6
+malloc
+
+
+
+
+    I    Library function in stdlib.h
+           I   Stands for memory allocate
+
+
+
+
+                           Introduction to C   CS 2022, Spring 2011, Lecture 6
+malloc
+
+
+
+
+    I    Library function in stdlib.h
+           I   Stands for memory allocate
+    I    Requests a memory region of a specified size
+           I   Syntax: void *malloc(int size)
+           I   void * is generic pointer type
+
+
+
+
+                           Introduction to C   CS 2022, Spring 2011, Lecture 6
+Usage
+
+
+
+  int main()
+  {
+      int *p = (int *) malloc(10 * sizeof(int));
+      if (p == NULL)
+      {
+          // do cleanup
+      }
+      // do something
+      free(p);
+      return 0;
+  }
+
+
+
+
+                                Introduction to C   CS 2022, Spring 2011, Lecture 6
+Usage
+
+
+
+  int main()
+  {
+      int *p = (int *) malloc(10 * sizeof(int));
+      if (p == NULL)
+      {
+          // do cleanup
+      }
+      // do something
+      free(p);
+      return 0;
+  }
+
+
+
+
+     I   MUST check the return value from malloc
+     I   MUST explicitly free memory when no longer in use
+
+
+
+                                Introduction to C   CS 2022, Spring 2011, Lecture 6
+What Can Go Wrong?
+
+
+
+
+    I   Run out of heap space: malloc returns 0
+    I   Unintentionally change other heap data
+    I   Access memory after free’d
+    I   free memory twice
+
+
+
+
+                       Introduction to C   CS 2022, Spring 2011, Lecture 6
+Usage
+
+  int main()
+  {
+      int *p = (int *) malloc(10 * sizeof(int));
+      if (p == NULL)
+      {
+          // do cleanup
+      }
+      // do something
+      if (p != NULL)
+      {
+          free(p);
+          p = NULL;
+      }
+      return 0;
+  }
+
+                  Introduction to C   CS 2022, Spring 2011, Lecture 6
+Garbage Collection in C
+    I   Pointers make garbage collection difficult or impossible
+    I   Its very difficult to determine whether memory is still being
+        used
+    I   Javas references are a restricted form of pointers that don’t
+        allow arithmetic, just because of this issue
+    I   There are garbage collecting libraries for C, but they aren’t
+        guaranteed to work with any program
+
+
+
+
+                        Introduction to C   CS 2022, Spring 2011, Lecture 6
+Garbage Collection in C
+     I   Pointers make garbage collection difficult or impossible
+     I   Its very difficult to determine whether memory is still being
+         used
+     I   Javas references are a restricted form of pointers that don’t
+         allow arithmetic, just because of this issue
+     I   There are garbage collecting libraries for C, but they aren’t
+         guaranteed to work with any program
+   Example
+
+   char *s = (char *) malloc(1024);
+   s -= 10000;
+   // nothing points to the allocated memory
+   // region. Could it be garbage collected?
+   s += 10000;
+   // no, because now something points to it again!
+
+
+
+                         Introduction to C   CS 2022, Spring 2011, Lecture 6
+Multidimensional Arrays
+
+
+    I   On the stack: int a[10][20];
+    I   Initialization: int a[][] = {{1, 2, 3}, {4, 5, 6}};
+    I   Accessing the array: a[1][0]
+
+
+
+
+                         Introduction to C   CS 2022, Spring 2011, Lecture 6
+Multidimensional Arrays
+
+
+    I   On the stack: int a[10][20];
+    I   Initialization: int a[][] = {{1, 2, 3}, {4, 5, 6}};
+    I   Accessing the array: a[1][0]
+    I   On the heap
+        int **a = (int **) malloc(10 * sizeof(int *));
+        for (int i = 0; i < 10; ++i)
+        {
+            a[i] = (int *) malloc(20 * sizeof(int));
+        }
+
+    I   Don’t forget to free them!
+
+
+
+                         Introduction to C   CS 2022, Spring 2011, Lecture 6
+
