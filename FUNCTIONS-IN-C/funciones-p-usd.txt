@@ -1,0 +1,12 @@
+Funcions.
+
+Predefined
+
+- Library functions
+- declarations in header files
+- body in .dll files
+
+User defined
+
+- User customized functions, to reduce complexity of big programs.
+

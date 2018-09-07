@@ -1,0 +1,7 @@
+A very important concept in C is the stream. In C, the stream is a common, logical interface to the various devices that comprise the computer. In its most common form, a stream is a logical interface to a file. As C defines the term "file", it can refer to a disk file, the screen, the keyboard, a port, a file on tape, and so on. Although files differ in form and capabilities, all streams are the same. The stream provides a consistent interface and to the programmer one hardware device will look much like another.
+
+A stream is linked to a file using an open operation. A stream is disassociated from a file using a close operation. The current location, also referred to as the current position, is the location in a file where the next file access will occur. There are two types of streams: text (used with ASCII characters some character translation takes place, may not be one-to-one correspondence between stream and what's in the file) and binary (used with any type of data, no character translation, one-to-one between stream and file).
+
+To open a file and associate it with a stream, use fopen(). Its prototype is shown here:
+
+FILE *fopen(char *fname,char *mode);

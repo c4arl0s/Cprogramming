@@ -1,0 +1,21 @@
+#include <stdio.h>
+int main()
+{
+  FILE *fp;
+  char str[60];
+ fp = fopen("file.txt" , "r");				// Opens the file in read mode and returns the pointer to the file and stores it in the variable fp.
+ if(fp == NULL) 
+	{
+   perror("Error opening file");
+   return(-1);
+ 	}
+ if( fgets (str, 60, fp)!=NULL )   		// fgets() reads  60 characters from the file and stores it in the string array. 
+																			// It returns NULL if it has reached the end of the file.
+																			// Check to make sure fgets() actually read the string and has returned a non-zero value. 
+	{
+   puts(str);													// Prints the content of str array on to the screen.
+ }
+ fclose(fp);													// Book keeping! Close the file.
+ return(0);
+}
+

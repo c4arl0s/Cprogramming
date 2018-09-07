@@ -1,0 +1,22 @@
+Please tell how scanf() returns values, based on the argument:
+int g;
+int p=scanf("%d",g);
+
+From the man page:
+NAME
+       scanf,  fscanf, sscanf, vscanf, vsscanf, vfscanf 
+              ...
+              RETURN VALUE
+These functions return the number of input items  successfully  matched
+and assigned, which can be fewer than provided for, or even zero in the
+event of an early matching failure.
+
+The value EOF is returned if the end of input is reached before  either
+the  first  successful conversion or a matching failure occurs.  EOF is
+also returned if a read error occurs, in which case the error indicator
+for  the  stream  (see ferror(3)) is set, and errno is set indicate the
+error.
+
+In your case, scanf() can return 0, 1 or EOF.
+
+

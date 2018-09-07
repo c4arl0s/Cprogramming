@@ -1,0 +1,46 @@
+C is a very powerful programming language, widely used by professional programmers to develop complex and very useful software programs. The language has a very structured syntax making it relatively easy to learn and use. It also provides great constructs to manipulate files and strings. In this tutorial, we’ll walk you through one of the important string usage functions – fgets() – that lets you read or fetch strings from files.
+
+This is an intermediate level tutorial (i.e. we assume you have some basic exposure to C). Though we’ll walk you through the basics, if you’re new to C programming, we do recommend you first try out this beginner course on C programming.
+
+What Does the fgets Function Do in C Language ?
+
+fgets() is one of the file I/O (input / output) functions in C language and part of the “stiod.h” library. The name itself gives you a hint towards its functionality. The “f” at the start indicates this a file operation. The “get” indicates this function is used to “get” something from a file. The “s” indicates that this function fetches a string from a file.  You can of course also use this to read a string from the standard input device that is your keyboard. Before we get into the details of fgets(), let’s do a quick recap on ‘strings’ in C (you could also learn about strings in C in this basic C course).
+
+In C, any textual data you want to manipulate is called a ‘string’. While specifying a string, you have to place the text between double quotation marks. Internally, C language stores the string as an array of characters. For example, the syntax to store a string of 6 characters would be something like this
+
+#include “stdio.h”;
+char string_example[7];
+string_example=”Hello”;
+
+Note that in C, arrays begin at index zero. String arrays always have an extra character ‘\n’ at the end, to mark the end of the string. You can say it’s similar to a period at the end of a sentence. Though this string terminator is not printed or show, it still takes up a space internally. Therefore, you always need to allocate an extra memory space for it in your array.
+
+How to Use fgets()
+
+Here is the syntax for fgets()  to read a string from a file
+
+char *fgets(char *str, int size, file* file);
+
+Let’s take a better look at the parameters here
+
+- str – This is a pointer to the string or array of characters where you want to save the string after you read it.
+- size – This is the total number of characters you want to read. Remember to include the ending null character.
+- file – This is the pointer to the File object from where you want to read the string.
+
+If you want to read the string from your keyboard, then just use ‘stdin’ instead of the file pointer, like this
+
+fgets(pString,size,stdin);
+
+“Stdin” is the name C internally uses for the standard input ie the keyboard. Yes, fancy name! Let’s try this out in a simple program to see how it works.
+
+Example 1: fgets() Reads a String through the Keyboard
+
+#include <stdio.h>
+int main()
+{
+ char name[10];														// se declara un arreglo de caracteres
+ printf("Who are you? \n");								// imprime pregunta
+ fgets(name,10,stdin);										// name es un apuntador al primer elemento del arreglo de caracteres *recordar!
+ printf("Good to meet you, %s.\n",name);	// imprime el nombre ingresado
+ return(0);
+}
+

@@ -1,0 +1,132 @@
+Functions in c
+A function is a block of code that performs a particular task. There are times when we need to write a particular block of code for more than once in our program. This may lead to bugs and irritation for the programmer. C language provides an approach in which you need to declare and define a group of statements once and that can be called and used whenever required. This saves both time and space.
+
+C functions can be classified into two categories,
+
+Library functions
+User-defined functions
+types of functions in C
+
+Library functions are those functions which are defined by C library, example printf(), scanf(), strcat() etc. You just need to include appropriate header files to use these functions. These are already declared and defined in C libraries.
+
+User-defined functions are those functions which are defined by the user at the time of writing program. Functions are made for code reusability and for saving time and space.
+
+Benefits of Using Functions
+
+It provides modularity to the program.
+Easy code Reuseability. You just have to call the function by its name to use it.
+In case of large programs with thousands of code lines, debugging and editing becomes easier if you use functions.
+Function declaration
+
+General syntax of function declaration is,
+
+return-type function-name (parameter-list) ;
+Like variable and an array, a function must also be declared before its called. A function declaration tells the compiler about a function name and how to call the function. The actual body of the function can be defined separately. A function declaration consist of 4 parts.
+
+return-type
+function name
+parameter list
+terminating semicolon
+Function definition Syntax
+
+General syntax of function definition is,
+
+return-type function-name (parameter-list)
+{
+      function-body ;
+}
+The first line return-type function-name(parameter) is known as function header and the statement within curly braces is called function body.
+
+return-type
+
+return type specifies the type of value(int,float,char,double) that function is expected to return to the program calling the function.
+
+function-name
+
+function name specifies the name of the function. The function name is any valid C identifier and therefore must follow the same rule of formation as other variables in C.
+
+parameter-list
+
+The parameter list declares the variables that will receive the data sent by calling program. They often referred to as formal parameters. These parameters are also used to send values to calling program.
+
+function-body
+
+The function body contains the declarations and the statement(algorithm) necessary for performing the required task. The body is enclosed within curly braces { } and consists of three parts.
+
+local variable declaration.
+function statement that performs the tasks of the function.
+a return statement that return the value evaluated by the function.
+Functions and Arguments
+
+Arguments are the values specified during the function call, for which the formal parameters are declared in the function.
+
+functions and arguments in C
+
+Example : Function that return some value
+
+#include<stdio.h>
+#include<conio.h>
+int larger(int a,int b);    // function declaration
+
+void main()
+{
+     int i,j,k;
+      clrscr();
+       i=99;
+        j=112;
+         k=larger(i,j);       // function call
+          printf("%d",k);
+           getch();
+}
+
+int larger(int a,int b)     // function declaration
+{
+     if(a>b)
+          return a;
+           else
+                return b;
+}
+Nesting of Functions
+
+C language also allows nesting of functions, one function using another function inside its body. We must be careful while using nested functions, because it may lead to infinte nesting.
+
+function1()
+{
+       function2() ;
+          //statements
+} 
+If function2 calls function1 inside it, then in this case it will lead to infinite nesting, they will keep calling each other. Hence we must be careful.
+
+Recursion
+
+Recursion is a special of nesting functions, where a function calls itself inside it. We must have certain condition to break out of the recursion, otherwise recursion is infinite.
+
+function1()
+{
+       function1() ;
+          //statements
+}
+Example : Factorial of a number using Recursion
+
+#include<stdio.h>
+#include<conio.h>
+int factorial(int x);
+
+void main()
+{
+     int a,b;
+      clrscr();
+       printf("Enter no.");
+        scanf("%d",&a);
+         b=factorial(a);
+          printf("%d",b);
+           getch();
+}
+
+int factorial(int x)
+{
+     int r=1;
+      if(x==1) return 1;
+       else r=x*factorial(x-1);
+        return r;
+}

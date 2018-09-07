@@ -1,0 +1,5 @@
+Strings are used in C programming to hold all types of text input.  For instance, if you want to enter your name, you have to use a string. In the basic C course, you would have learnt about scanf(). Both scanf() and fgets() are used to get or read string inputs. How do you differentiate when to use which one? Here’s how you can decide
+
+1. Are you reading the text string from keyboard or a file? If you want to read from a file, you have to use fgets(). To read from a keyboard, you can use either.
+
+2. Does your string have spaces in it? For example if you’re entering your name “John Smith” with a space between the first name and family name, scanf() will simply exit ie stop reading further once it hits the space. So scanf() will end up reading just “John”. For such cases, you’re better off using fgets().
