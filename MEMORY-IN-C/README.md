@@ -6,30 +6,6 @@ Let’s say our computer has 4K of memory and the next open address is 2048. We 
 type, int for instance, it would take up 4 bytes and use up elements 2048-2051 in the array. Using the & would still return 2048 though because the int starts at that index even though it takes up 4 bytes. Let’s look at an example.
 
 ```c
-
- 
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@c4arl0s 
-c4arl0s
-/
-Cprogramming
- Watch 0
- Star 0
- Fork 0
- Code  Issues 0  Pull requests 0  Actions  Projects 0  Wiki  Security  Insights  Settings
-Branch: master 
-Cprogramming/MEMORY-IN-C/dynamic-memory.c
-Find file Copy path
-@c4arl0s c4arl0s Add files via upload
-6da0560 on Sep 7, 2018
-1 contributor
-42 lines (35 sloc)  1.12 KB
-RawBlameHistory
-    
 #include <stdlib.h>
 #define TAMANO_INICIAL 10 
 #define BUCKET_SIZE 5
